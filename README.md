@@ -38,6 +38,7 @@ A full-stack web application where businesses can create limited-time offer slot
 ### Bookings
 - GET `/api/Bookings`
 - POST `/api/Bookings`
+- PUT /api/Bookings/{id}/status
 
 ## Setup Instructions
 
@@ -81,9 +82,14 @@ Screenshots are available in the `screenshots/` folder.
 ## Future Improvements
 
 - Persistent database integration
-- Customer login system
-- Admin booking approval workflow
-- Slot capacity validation
-- Email/SMS notifications
+- Customer login and dashboard
+- Admin approval workflow for bookings
+- Slot capacity tracking per offer
+- Email/SMS booking notifications
 - Contact form between customer and admin
 - QR code booking confirmation
+- Payment gateway integration
+- Analytics and booking charts
+- Real-time seat availability updates
+- Role-based authentication
+- Booking cancellation and refund workflow
