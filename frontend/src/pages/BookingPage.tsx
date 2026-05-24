@@ -1,33 +1,38 @@
 import { useState } from "react";
-import api from "../services/api";
 import { useNavigate } from "react-router-dom";
+import api from "../services/api";
 
 function BookingPage() {
-    const navigate = useNavigate();
-    const [customerName, setCustomerName] = useState("");
-    const [customerPhone, setCustomerPhone] = useState("");
-    const [slotTime, setSlotTime] = useState("");
-    const [peopleCount, setPeopleCount] = useState(1);
+  const navigate = useNavigate();
 
-    const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
+  const [customerName, setCustomerName] = useState("");
+  const [customerPhone, setCustomerPhone] = useState("");
+  const [slotTime, setSlotTime] = useState("");
+  const [peopleCount, setPeopleCount] = useState(1);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  try {
-    await api.post("/Bookings", {
-      customerName,
-      customerPhone,
-      offerName: "Gym Trial Slot",
-      slotTime,
-      peopleCount,
-    });
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrorMessage("");
 
-    navigate("/booking-success");
-  } catch (error) {
-    console.error(error);
-  }
-};
+    try {
+      await api.post("/Bookings", {
+        customerName,
+        customerPhone,
+        offerName: "Gym Trial Slot",
+        slotTime,
+        peopleCount,
+      });
 
-    return (
+      navigate("/booking-success");
+    } catch (error: any) {
+      setErrorMessage(
+        error.response?.data || "Booking failed. Please try again."
+      );
+    }
+  };
+
+  return (
     <div className="min-h-screen bg-gray-100 p-8">
       <div className="max-w-3xl mx-auto">
         <h1 className="text-4xl font-bold text-blue-600 mb-2">
@@ -38,18 +43,21 @@ function BookingPage() {
           Fill your details to reserve this limited-time offer.
         </p>
 
-        <form onSubmit={handleSubmit} className="bg-white p-8 rounded-2xl shadow space-y-6">
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white p-8 rounded-2xl shadow space-y-6"
+        >
           <div>
             <label className="block text-lg font-medium mb-2">
               Customer Name
             </label>
             <input
-  type="text"
-  placeholder="Enter your name"
-  className="w-full border rounded-xl p-3"
-  value={customerName}
-  onChange={(e) => setCustomerName(e.target.value)}
-/>
+              type="text"
+              placeholder="Enter your name"
+              className="w-full border rounded-xl p-3"
+              value={customerName}
+              onChange={(e) => setCustomerName(e.target.value)}
+            />
           </div>
 
           <div>
@@ -57,12 +65,12 @@ function BookingPage() {
               Phone Number
             </label>
             <input
-  type="text"
-  placeholder="Enter phone number"
-  className="w-full border rounded-xl p-3"
-  value={customerPhone}
-  onChange={(e) => setCustomerPhone(e.target.value)}
-/>
+              type="text"
+              placeholder="Enter phone number"
+              className="w-full border rounded-xl p-3"
+              value={customerPhone}
+              onChange={(e) => setCustomerPhone(e.target.value)}
+            />
           </div>
 
           <div>
@@ -70,15 +78,15 @@ function BookingPage() {
               Select Slot
             </label>
             <select
-  className="w-full border rounded-xl p-3"
-  value={slotTime}
-  onChange={(e) => setSlotTime(e.target.value)}
->
-  <option value="">Select Slot</option>
-  <option>10 AM - 11 AM</option>
-  <option>3 PM - 4 PM</option>
-  <option>5 PM - 6 PM</option>
-</select>
+              className="w-full border rounded-xl p-3"
+              value={slotTime}
+              onChange={(e) => setSlotTime(e.target.value)}
+            >
+              <option value="">Select Slot</option>
+              <option>10 AM - 11 AM</option>
+              <option>3 PM - 4 PM</option>
+              <option>5 PM - 6 PM</option>
+            </select>
           </div>
 
           <div>
@@ -86,12 +94,18 @@ function BookingPage() {
               Number of People
             </label>
             <input
-  type="number"
-  className="w-full border rounded-xl p-3"
-  value={peopleCount}
-  onChange={(e) => setPeopleCount(Number(e.target.value))}
-/>
+              type="number"
+              className="w-full border rounded-xl p-3"
+              value={peopleCount}
+              onChange={(e) => setPeopleCount(Number(e.target.value))}
+            />
           </div>
+
+          {errorMessage && (
+            <div className="bg-red-100 text-red-700 p-3 rounded-xl">
+              {errorMessage}
+            </div>
+          )}
 
           <button
             type="submit"

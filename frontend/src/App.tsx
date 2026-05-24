@@ -18,7 +18,10 @@ function App() {
         <Route path="/bookings" element={<BookingsPage />} />
         <Route path="/active-offers" element={<OffersListPage />} />
         <Route path="/booking" element={<BookingPage />} />
-        <Route path="/booking-success" element={<BookingSuccessPage />} />
+        <Route
+          path="/booking-success"
+          element={<BookingSuccessPage />}
+        />
       </Routes>
     </BrowserRouter>
   );
