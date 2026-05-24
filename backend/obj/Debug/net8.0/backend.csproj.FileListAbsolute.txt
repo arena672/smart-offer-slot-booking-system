@@ -31,3 +31,4 @@ C:\Users\laxmi\Desktop\PROJECT\smart-offer-slot-booking-system\backend\obj\Debug
 C:\Users\laxmi\Desktop\PROJECT\smart-offer-slot-booking-system\backend\obj\Debug\net8.0\backend.pdb
 C:\Users\laxmi\Desktop\PROJECT\smart-offer-slot-booking-system\backend\obj\Debug\net8.0\backend.genruntimeconfig.cache
 C:\Users\laxmi\Desktop\PROJECT\smart-offer-slot-booking-system\backend\obj\Debug\net8.0\ref\backend.dll
+C:\Users\laxmi\Desktop\PROJECT\smart-offer-slot-booking-system\backend\obj\Debug\net8.0\backend.sourcelink.json
