@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import api from "../services/api";
 
 function BookingPage() {
@@ -10,6 +10,21 @@ function BookingPage() {
   const [slotTime, setSlotTime] = useState("");
   const [peopleCount, setPeopleCount] = useState(1);
   const [errorMessage, setErrorMessage] = useState("");
+  const [slots, setSlots] = useState<any[]>([]);
+  const { offerId } = useParams();
+
+  useEffect(() => {
+    fetchSlots();
+  }, []);
+
+  const fetchSlots = async () => {
+    try {
+      const response = await api.get(`/offers/${offerId}/slots`);
+      setSlots(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -17,6 +32,7 @@ function BookingPage() {
 
     try {
       await api.post("/Bookings", {
+        offerId: Number(offerId),
         customerName,
         customerPhone,
         offerName: "Gym Trial Slot",
@@ -83,9 +99,21 @@ function BookingPage() {
               onChange={(e) => setSlotTime(e.target.value)}
             >
               <option value="">Select Slot</option>
-              <option>10 AM - 11 AM</option>
-              <option>3 PM - 4 PM</option>
-              <option>5 PM - 6 PM</option>
+
+              {slots.map((slot) => {
+                const availableSeats = slot.capacity - slot.bookedCount;
+                const slotLabel = `${slot.startTime} - ${slot.endTime}`;
+
+                return (
+                  <option
+                    key={slot.id}
+                    value={slotLabel}
+                    disabled={availableSeats <= 0 || slot.status === "Full"}
+                  >
+                    {slotLabel} | {availableSeats} seats left
+                  </option>
+                );
+              })}
             </select>
           </div>
 
@@ -95,6 +123,7 @@ function BookingPage() {
             </label>
             <input
               type="number"
+              min="1"
               className="w-full border rounded-xl p-3"
               value={peopleCount}
               onChange={(e) => setPeopleCount(Number(e.target.value))}

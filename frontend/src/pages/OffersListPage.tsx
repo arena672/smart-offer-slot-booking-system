@@ -83,10 +83,10 @@ const fetchOffers = async () => {
               </p>
 
               <Link
-                to="/booking"
+                to={`/offer/${offer.id}`}
                 className="block text-center mt-6 w-full bg-blue-600 text-white py-3 rounded-xl hover:bg-blue-700 transition"
               >
-                Book Now
+                View Details
               </Link>
             </div>
           ))}

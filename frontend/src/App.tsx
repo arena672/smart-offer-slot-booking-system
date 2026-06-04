@@ -7,6 +7,9 @@ import OffersListPage from "./pages/OffersListPage";
 import BookingPage from "./pages/BookingPage";
 import BookingsPage from "./pages/BookingsPage";
 import BookingSuccessPage from "./pages/BookingSuccessPage";
+import BusinessProfilePage from "./pages/BusinessProfilePage";
+import OfferDetailPage from "./pages/OfferDetailPage";
+import SlotsPage from "./pages/SlotsPage";
 
 function App() {
   return (
@@ -17,12 +20,16 @@ function App() {
         <Route path="/offers" element={<OffersPage />} />
         <Route path="/bookings" element={<BookingsPage />} />
         <Route path="/active-offers" element={<OffersListPage />} />
-        <Route path="/booking" element={<BookingPage />} />
+        <Route path="/booking/:offerId" element={<BookingPage />} />
         <Route
           path="/booking-success"
           element={<BookingSuccessPage />}
         />
+        <Route path="/business-profile" element={<BusinessProfilePage />} />
+        <Route path="/offer/:id" element={<OfferDetailPage />} />
+        <Route path="/slots" element={<SlotsPage />} />
       </Routes>
+      
     </BrowserRouter>
   );
 }

@@ -3,6 +3,9 @@ namespace backend.Models;
 public class Booking
 {
     public int Id { get; set; }
+
+    public int OfferId { get; set; }
+
     public string BookingReference { get; set; } = "";
     public string CustomerName { get; set; } = "";
     public string CustomerPhone { get; set; } = "";

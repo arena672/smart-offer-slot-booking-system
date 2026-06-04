@@ -56,6 +56,31 @@ function Sidebar() {
             </span>
           </Link>
         </li>
+
+        <li>
+          <Link
+            to="/business-profile"
+            className="flex items-center gap-4 hover:text-blue-200"
+          >
+            <span className="text-2xl">🏢</span>
+            <span className="hidden group-hover:inline whitespace-nowrap">
+              Business
+            </span>
+          </Link>
+        </li>
+
+        <li>
+          <Link
+            to="/slots"
+            className="flex items-center gap-4 hover:text-blue-200"
+          >
+            <span className="text-2xl">🕒</span>
+
+            <span className="hidden group-hover:inline whitespace-nowrap">
+              Slots
+            </span>
+          </Link>
+        </li>
       </ul>
     </div>
   );

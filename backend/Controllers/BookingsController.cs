@@ -34,14 +34,29 @@ public class BookingsController : ControllerBase
     public IActionResult CreateBooking(Booking booking)
     {
         int alreadyBooked = bookings
-            .Where(b => b.SlotTime == booking.SlotTime && b.Status != "Cancelled")
+            .Where(b =>
+                b.OfferName == booking.OfferName &&
+                b.SlotTime == booking.SlotTime &&
+                b.Status != "Cancelled")
             .Sum(b => b.PeopleCount);
 
         int availableSeats = gymSlotCapacity - alreadyBooked;
 
-        if (booking.PeopleCount > availableSeats)
+        if (booking.PeopleCount <= 0)
         {
-            return BadRequest($"Only {availableSeats} seats available for this slot.");
+            return BadRequest("Number of people must be at least 1.");
+        }
+
+        bool slotBooked = SlotsController.TryBookSlot(
+            booking.OfferId,
+            booking.SlotTime,
+            booking.PeopleCount,
+            out string errorMessage
+        );
+
+        if (!slotBooked)
+        {
+            return BadRequest(errorMessage);
         }
 
         booking.Id = bookings.Count + 1;
@@ -66,5 +81,17 @@ public class BookingsController : ControllerBase
         booking.Status = status;
 
         return Ok(booking);
+    }
+
+    public static int GetTotalBookedSeats(string offerName)
+    {
+        return bookings
+            .Where(b => b.OfferName == offerName && b.Status != "Cancelled")
+            .Sum(b => b.PeopleCount);
+    }
+
+    public static List<Booking> GetAllBookings()
+    {
+        return bookings;
     }
 }
